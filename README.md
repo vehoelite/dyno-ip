@@ -1,36 +1,178 @@
-# Dyno-IP Clients
+<p align="center">
+  <img src="media/globe_only.png" alt="Dyno-IP" width="80" />
+</p>
 
-This repository contains only Dyno-IP client applications.
+<h1 align="center">Dyno-IP</h1>
 
-## Repository Scope
+<p align="center">
+  <strong>Dynamic DNS & Secure Tunnels — No Router Config Required</strong>
+</p>
 
-Included:
-- Android client: `android/`
-- Cross-platform clients and packaging: `clients/`
-  - Windows client and installer assets: `clients/windows/`
-  - Linux client and packaging assets: `clients/linux/`
-  - Python client package sources: `clients/pypi/`
+<p align="center">
+  <a href="https://dyno-ip.com">Website</a> •
+  <a href="https://dyno-ip.com/login">Dashboard</a> •
+  <a href="#download">Download</a> •
+  <a href="#pricing">Pricing</a>
+</p>
 
-Excluded:
-- Backend code
-- Frontend code
-- Infrastructure/server code
+---
 
-## Active Product Lineup
+## What is Dyno-IP?
 
-The active Dyno-IP plans are:
-- Dyno-ip Free
-- Dyno-ip Pro
-- Web Pro
-- Web Pro Plus
-- Web Entreprise
+Dyno-IP lets you **host services from any internet connection** without touching your router.
 
-All other legacy/dropped package names should be treated as retired and should not be reintroduced in docs or UI copy.
+- **Dynamic DNS** — Your subdomain always points to your current IP, even on residential or mobile connections.
+- **Secure Tunnels** — Expose local HTTP, HTTPS, TCP, and UDP services to the internet through encrypted tunnels.
+- **Zero port forwarding** — Tunnels bypass NAT and firewalls completely. No UPnP, no DMZ, no router login.
 
-## Release Artifacts
+### Use Cases
 
-Current Windows release artifacts are published in GitHub Releases.
+| Use case | How |
+|---|---|
+| **Host a website** | Create a tunnel → point your subdomain → your local web server is live |
+| **Game server** | Create a TCP/UDP tunnel → share the hostname → friends connect directly |
+| **Home lab** | Access self-hosted services (Plex, Home Assistant, NAS) from anywhere |
+| **Development** | Share localhost with teammates or webhook providers |
+| **API backend** | Run a FastAPI/Express server at home, expose it with a real hostname |
+| **Security cameras** | Access your DVR/NVR remotely without exposing ports |
 
-## Notes
+---
 
-This README is intentionally client-only and sanitized for public distribution.
+## Download
+
+### Windows (recommended)
+
+Download the latest **[DynoIP-Setup.exe](https://github.com/vehoelite/dyno-ip/releases/download/v1.0.0/DynoIP-Setup.exe)**.
+
+The installer includes:
+- **DynoIP Desktop App** — GUI dashboard with login, subdomain management, tunnel control, and activity monitoring
+- **DynoIP Background Service** (optional) — Keeps your IP updated automatically, even when the app is closed
+
+### Linux
+
+```bash
+# Debian/Ubuntu
+sudo dpkg -i dynoip_1.0.0_all.deb
+sudo systemctl enable --now dynoip.timer
+
+# Or use the standalone script
+curl -s https://dyno-ip.com/api/ip/SUBDOMAIN/update \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+### Any Platform (API)
+
+```bash
+# Update your IP with a single cURL request
+curl -X POST https://dyno-ip.com/api/ip/SUBDOMAIN/update \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+---
+
+## Features
+
+| Feature | Description |
+|---|---|
+| **Dynamic DNS** | Automatic IP updates via Cloudflare DNS across 10+ domains |
+| **Secure Tunnels** | HTTP, HTTPS, TCP, and UDP — encrypted end-to-end |
+| **10+ Domains** | .com, .info, .store, .online, .site, .cloud, and more |
+| **Full DNS Management** | A, AAAA, CNAME, MX, TXT records with Cloudflare proxy toggle |
+| **Activity Feed** | Real-time log of IP changes, traffic, tunnel events, and logins |
+| **Traffic Analytics** | HTTP request counts, unique visitors, bandwidth per subdomain |
+| **2FA Security** | TOTP-based two-factor authentication for your account |
+| **OAuth Login** | Sign in with Google or GitHub |
+| **Cross-Platform** | Windows app, Linux daemon, web dashboard, REST API |
+| **Session Log** | Local event log in the desktop app for troubleshooting |
+
+---
+
+## Pricing
+
+Start free. Upgrade when you need more.
+
+| | **Free** | **Pro** — $4.99/mo | **Business** — $9.99/mo |
+|---|:---:|:---:|:---:|
+| Subdomains | 1 | 5 | Unlimited |
+| Tunnels | 1 | 5 | Unlimited |
+| Bandwidth | 10 GB/mo | 100 GB/mo | Unlimited |
+| Connections | 5 simultaneous | 50 | Unlimited |
+| Analytics | 24 hours | 7-day history | 30-day + export |
+| Custom domains | — | ✓ | ✓ |
+| Priority DNS | — | ✓ | ✓ |
+| Priority support | — | — | ✓ |
+
+> **No speed limits on any tier.** Every user gets full-speed tunnels. Limits are on quantity and monthly bandwidth, not throughput.
+
+---
+
+## Architecture
+
+```
+┌─────────────────────────────────┐
+│        Cloudflare DNS           │  ← DNS records for all domains
+│    dyno-ip.com, *.dyno-ip.com  │
+└───────────────┬─────────────────┘
+                │
+                ▼
+┌─────────────────────────────────┐
+│       Dyno-IP Backend           │  ← FastAPI (Python)
+│       (API + Dashboard)         │     JWT auth, 2FA, OAuth
+│       Port 8500                 │     Cloudflare integration
+└───────────────┬─────────────────┘
+                │
+                ▼
+┌─────────────────────────────────┐
+│       Pangolin Tunnel Server    │  ← Tunnel orchestration
+│       (HTTP/HTTPS/TCP/UDP)      │     Newt agents connect here
+│       WireGuard + Traefik       │     Zero-config for end users
+└─────────────────────────────────┘
+```
+
+- **Backend**: FastAPI on Python 3.12+, MariaDB, JWT + bcrypt auth
+- **Frontend**: React + TypeScript + Vite + Tailwind CSS
+- **DNS**: Cloudflare API (Global Key auth) for all DNS operations
+- **Tunnels**: Pangolin + Newt (WireGuard-based) for encrypted tunnels
+- **Desktop Client**: Python + CustomTkinter, packaged with PyInstaller
+- **Analytics**: Cloudflare Analytics API (GraphQL + REST) polled server-side
+
+---
+
+## Self-Hosting
+
+Dyno-IP is open source. To self-host:
+
+1. Clone this repo
+2. Copy `backend/.env.example` to `backend/.env` and fill in your secrets
+3. Set up MariaDB/MySQL and run the migrations in `backend/migrations/`
+4. Deploy the backend: `cd backend && pip install -r requirements.txt && uvicorn app.main:app`
+5. Build the frontend: `cd frontend && npm install && npm run build`
+6. Set up Pangolin for tunnel support (see `pangolin/` directory)
+
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for full details.
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Backend | Python 3.12+, FastAPI, SQLAlchemy, MariaDB |
+| Frontend | React 18, TypeScript, Vite, Tailwind CSS |
+| DNS | Cloudflare API |
+| Tunnels | Pangolin, Newt, WireGuard, Traefik |
+| Desktop | Python, CustomTkinter, PyInstaller |
+| Auth | JWT, bcrypt, TOTP 2FA, Google/GitHub OAuth |
+| Analytics | Cloudflare GraphQL + REST APIs |
+
+---
+
+## License
+
+MIT — see [LICENSE](LICENSE) for details.
+
+---
+
+<p align="center">
+  <sub>Built by <a href="https://dyno-ip.com">Novamind Labs</a></sub>
+</p>

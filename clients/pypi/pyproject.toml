@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dynoip"
+version = "1.0.0"
+description = "Dyno-IP Dynamic DNS client — keep your hostname updated automatically"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.7"
+authors = [{name = "Novamind Labs", email = "support@dyno-ip.com"}]
+keywords = ["ddns", "dynamic-dns", "dns", "tunnel", "dynoip"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Internet :: Name Service (DNS)",
+    "Topic :: System :: Networking",
+]
+
+[project.urls]
+Homepage = "https://dyno-ip.com"
+Repository = "https://github.com/vehoelite/dyno-ip"
+Issues = "https://github.com/vehoelite/dyno-ip/issues"
+
+[project.scripts]
+dynoip = "dynoip.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

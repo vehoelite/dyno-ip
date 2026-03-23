@@ -1,0 +1,38 @@
+#!/bin/bash
+set -e
+
+# Create dynoip system user (no shell, no home)
+if ! id -u dynoip >/dev/null 2>&1; then
+    adduser --system --group --no-create-home --shell /usr/sbin/nologin dynoip
+fi
+
+# Ensure config directory ownership
+chown root:dynoip /etc/dynoip
+chmod 750 /etc/dynoip
+
+# Protect the config file (contains token)
+if [ -f /etc/dynoip/config ]; then
+    chown root:dynoip /etc/dynoip/config
+    chmod 640 /etc/dynoip/config
+fi
+
+# Reload systemd
+systemctl daemon-reload
+
+echo ""
+echo "╔══════════════════════════════════════════════╗"
+echo "║    Dyno-IP DDNS Client installed!            ║"
+echo "╠══════════════════════════════════════════════╣"
+echo "║                                              ║"
+echo "║  1. Edit your token:                         ║"
+echo "║     sudo nano /etc/dynoip/config             ║"
+echo "║                                              ║"
+echo "║  2. Test:                                    ║"
+echo "║     sudo -u dynoip dynoip-update --test      ║"
+echo "║                                              ║"
+echo "║  3. Enable automatic updates:                ║"
+echo "║     sudo systemctl enable --now dynoip.timer  ║"
+echo "║                                              ║"
+echo "║  Logs: journalctl -u dynoip                  ║"
+echo "╚══════════════════════════════════════════════╝"
+echo ""

@@ -1,0 +1,8 @@
+#!/bin/bash
+set -e
+
+systemctl daemon-reload
+
+# Don't remove user/config on purge — user might reinstall
+echo "Dyno-IP removed. Config preserved at /etc/dynoip/"
+echo "To fully remove: sudo rm -rf /etc/dynoip && sudo userdel dynoip"

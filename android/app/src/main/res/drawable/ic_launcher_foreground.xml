@@ -1,0 +1,23 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Globe outline representing Dyno-IP -->
+    <path
+        android:fillColor="#00E5FF"
+        android:pathData="M54,24C37.43,24 24,37.43 24,54s13.43,30 30,30 30,-13.43 30,-30S70.57,24 54,24zM54,80c-14.34,0 -26,-11.66 -26,-26s11.66,-26 26,-26 26,11.66 26,26 -11.66,26 -26,26z" />
+    <path
+        android:fillColor="#00E5FF"
+        android:pathData="M54,28c-3.6,0 -7.8,5.4 -9.6,14h19.2C61.8,33.4 57.6,28 54,28zM44.4,66c1.8,8.6 6,14 9.6,14s7.8,-5.4 9.6,-14H44.4z" />
+    <path
+        android:fillColor="#00E5FF"
+        android:pathData="M28,54h52"
+        android:strokeWidth="2"
+        android:strokeColor="#00E5FF" />
+    <path
+        android:fillColor="#00E5FF"
+        android:pathData="M54,28v52"
+        android:strokeWidth="2"
+        android:strokeColor="#00E5FF" />
+</vector>

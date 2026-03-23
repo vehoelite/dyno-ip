@@ -1,0 +1,10 @@
+[dynoip]
+# Your Dyno-IP update token (from dashboard)
+token = YOUR_UPDATE_TOKEN_HERE
+
+# API endpoint (default: production)
+api_url = https://dyno-ip.com/api/ip/update
+
+# Update interval in seconds (only used with --daemon mode)
+# When using systemd timer, the interval is set in dynoip.timer instead
+interval = 300

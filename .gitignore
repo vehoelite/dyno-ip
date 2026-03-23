@@ -1,0 +1,75 @@
+# ── Secrets / credentials ──
+tools/creds.txt
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# ── Python ──
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+venv/
+.venv/
+
+# ── Node / Frontend ──
+node_modules/
+frontend/dist/
+.next/
+
+# ── Windows build artifacts ──
+clients/windows/dist/
+clients/windows/build/
+*.spec
+
+# ── PyInstaller temp ──
+*.manifest
+
+# ── IDE ──
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ── OS ──
+Thumbs.db
+.DS_Store
+
+# ── Misc ──
+*.log
+backend/test_activity.py
+igenius.instructions.md
+PktMon.etl
+virt_boot
+*.sql.zip
+ionos_client.py
+pangolin_client.py
+ionos-cloudpanel-api.md
+tools/
+udp_trace*.txt
+dynoip-service.exe
+*.deb
+
+auto-login.html
+
+# ── Client-Only Publishing Mode ──
+# Keep this repository focused on Android/Windows/Linux clients only.
+# Everything else is ignored at the root level.
+/*
+!/.gitignore
+!/android/
+!/android/**
+!/clients/
+!/clients/**
+
+# Re-ignore generated artifacts within allowed client folders
+clients/windows/dist/
+clients/windows/build/
+clients/windows/*.spec
+clients/windows/__pycache__/
+clients/pypi/src/dynoip.egg-info/
+clients/pypi/src/dynoip/__pycache__/
+clients/linux/*.deb

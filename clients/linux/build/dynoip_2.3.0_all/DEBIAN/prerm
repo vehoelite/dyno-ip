@@ -1,0 +1,15 @@
+#!/bin/bash
+set -e
+
+# Stop and disable timer before removal
+if systemctl is-active --quiet dynoip.timer 2>/dev/null; then
+    systemctl stop dynoip.timer || true
+fi
+if systemctl is-enabled --quiet dynoip.timer 2>/dev/null; then
+    systemctl disable dynoip.timer || true
+fi
+
+# Stop service if running
+if systemctl is-active --quiet dynoip.service 2>/dev/null; then
+    systemctl stop dynoip.service || true
+fi

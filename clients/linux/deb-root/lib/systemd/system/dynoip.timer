@@ -1,0 +1,12 @@
+[Unit]
+Description=Dyno-IP Dynamic DNS update timer (every 5 minutes)
+Documentation=https://dyno-ip.com/docs
+
+[Timer]
+OnBootSec=30
+OnUnitActiveSec=5min
+RandomizedDelaySec=30
+Persistent=true
+
+[Install]
+WantedBy=timers.target

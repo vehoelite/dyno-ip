@@ -1,0 +1,90 @@
+#!/usr/bin/env python3
+"""
+Dyno-IP DDNS Update Daemon — Linux
+
+Reads config from /etc/dynoip/config and updates IP on a schedule.
+Designed to run via systemd timer (preferred) or as a one-shot from cron.
+
+Usage:
+    dynoip-update              # Single update (for cron/timer)
+    dynoip-update --daemon     # Continuous loop (alternative to timer)
+    dynoip-update --test       # Test connectivity
+    dynoip-update --version    # Show version
+"""
+
+import os
+import sys
+import argparse
+import configparser
+import logging
+
+# If installed as package, dynoip_core is alongside us
+script_dir = os.path.dirname(os.path.abspath(__file__))
+if script_dir not in sys.path:
+    sys.path.insert(0, script_dir)
+
+from dynoip_core import run_once, daemon_loop, __version__
+
+CONFIG_FILE = os.environ.get("DYNOIP_CONFIG", "/etc/dynoip/config")
+LOG_LEVEL = os.environ.get("DYNOIP_LOG_LEVEL", "INFO")
+
+
+def read_config(path: str) -> dict:
+    """Read /etc/dynoip/config (INI format)."""
+    if not os.path.exists(path):
+        return {
+            "token": os.environ.get("DYNOIP_TOKEN", ""),
+            "api_url": os.environ.get("DYNOIP_API_URL", "https://dyno-ip.com/api/ip/update"),
+            "interval": int(os.environ.get("DYNOIP_INTERVAL", "300")),
+        }
+
+    config = configparser.ConfigParser()
+    config.read(path)
+    section = config["dynoip"] if "dynoip" in config else {}
+
+    return {
+        "token": section.get("token", os.environ.get("DYNOIP_TOKEN", "")),
+        "api_url": section.get("api_url", os.environ.get("DYNOIP_API_URL", "https://dyno-ip.com/api/ip/update")),
+        "interval": int(section.get("interval", os.environ.get("DYNOIP_INTERVAL", "300"))),
+    }
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Dyno-IP Dynamic DNS Updater")
+    parser.add_argument("ip", nargs="?", default="AUTO", help="IP address (default: AUTO)")
+    parser.add_argument("--config", default=CONFIG_FILE, help=f"Config file (default: {CONFIG_FILE})")
+    parser.add_argument("--daemon", action="store_true", help="Run in continuous loop")
+    parser.add_argument("--test", action="store_true", help="Test configuration and exit")
+    parser.add_argument("--version", action="version", version=f"dynoip-update {__version__}")
+    args = parser.parse_args()
+
+    # Setup logging — systemd captures stdout/stderr via journal
+    logging.basicConfig(
+        level=getattr(logging, LOG_LEVEL.upper(), logging.INFO),
+        format="%(asctime)s %(levelname)s %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",
+    )
+    log = logging.getLogger("dynoip")
+
+    cfg = read_config(args.config)
+
+    if not cfg["token"]:
+        log.error("No token configured. Edit %s or set DYNOIP_TOKEN env var.", args.config)
+        sys.exit(1)
+
+    if args.test:
+        log.info("Testing with token %s...", cfg["token"][:8] + "...")
+        log.info("API URL: %s", cfg["api_url"])
+        success = run_once(cfg["token"], args.ip, cfg["api_url"])
+        sys.exit(0 if success else 1)
+
+    if args.daemon:
+        daemon_loop(cfg["token"], cfg["interval"], cfg["api_url"])
+    else:
+        # Single-shot mode (for systemd timer / cron)
+        success = run_once(cfg["token"], args.ip, cfg["api_url"])
+        sys.exit(0 if success else 1)
+
+
+if __name__ == "__main__":
+    main()

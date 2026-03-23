@@ -1,0 +1,16 @@
+Package: dynoip
+Version: 1.0.0
+Section: net
+Priority: optional
+Architecture: all
+Depends: python3 (>= 3.7)
+Maintainer: NovaMind Labs <support@dyno-ip.com>
+Homepage: https://dyno-ip.com
+Description: Dyno-IP Dynamic DNS Update Client
+ Automatically updates your Dyno-IP dynamic DNS record
+ when your public IP address changes. Runs as a systemd
+ timer (every 5 minutes) with security hardening.
+ .
+ After installation, edit /etc/dynoip/config with your
+ update token from the Dyno-IP dashboard, then enable:
+   sudo systemctl enable --now dynoip.timer

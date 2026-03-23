@@ -60,6 +60,7 @@ auto-login.html
 # Everything else is ignored at the root level.
 /*
 !/.gitignore
+!/README.md
 !/android/
 !/android/**
 !/clients/

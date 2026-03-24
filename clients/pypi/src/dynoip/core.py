@@ -10,7 +10,7 @@ import time
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError, URLError
 
-__version__ = "1.0.0"
+__version__ = "2.6.0"
 
 DEFAULT_API_URL = "https://dyno-ip.com/api/ip/update"
 

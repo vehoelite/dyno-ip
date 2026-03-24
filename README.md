@@ -102,18 +102,6 @@ Start free. Upgrade when you need more.
 | Priority DNS | — | ✓ | ✓ |
 | Priority support | — | — | ✓ |
 
-## Coming Soon
-| | **Web Pro** - $4.99/mo | **Web Pro Plus** — $9.99/mo | **Web Enterprise** — $19.99/mo |
-|---|:---:|:---:|:---:|
-| Space | 10 GB | 25 GB | 100 GB |
-| SSL | ✓| ✓ | ✓ |
-| Email | ✓ | ✓ | ✓ |
-| Domain | - | ✓ | ✓ |
-
-+ Web hosting is going to feature a startup like nothing in the industry.
-> ** 1 Year Registration included with Web Pro Plus and Web Enterprise only.
-
-
 > **No speed limits on any tier.** Every user gets full-speed tunnels. Limits are on quantity and monthly bandwidth, not throughput.
 
 ---
@@ -150,6 +138,20 @@ Start free. Upgrade when you need more.
 
 ---
 
+## Self-Hosting
+
+Dyno-IP is open source. To self-host:
+
+1. Clone this repo
+2. Copy `backend/.env.example` to `backend/.env` and fill in your secrets
+3. Set up MariaDB/MySQL and run the migrations in `backend/migrations/`
+4. Deploy the backend: `cd backend && pip install -r requirements.txt && uvicorn app.main:app`
+5. Build the frontend: `cd frontend && npm install && npm run build`
+6. Set up Pangolin for tunnel support (see `pangolin/` directory)
+
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for full details.
+
+---
 
 ## Tech Stack
 

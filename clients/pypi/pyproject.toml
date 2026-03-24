@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "dynoip"
-version = "1.0.0"
+version = "2.6.0"
 description = "Dyno-IP Dynamic DNS client — keep your hostname updated automatically"
 readme = "README.md"
 license = {text = "MIT"}

@@ -52,6 +52,10 @@ tools/
 udp_trace*.txt
 dynoip-service.exe
 *.deb
+frontend/
+backend/
+pangolin/
+
 
 auto-login.html
 

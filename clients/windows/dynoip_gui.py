@@ -47,7 +47,7 @@ import pystray
 # ═══════════════════════════════════════════════════════════════════
 
 APP_NAME = "Dyno-IP"
-APP_VERSION = "2.5.0"
+APP_VERSION = "2.6.0"
 API_BASE = "https://dyno-ip.com/api"
 CONFIG_DIR = os.path.join(os.environ.get("APPDATA", "."), "DynoIP")
 TOKEN_FILE = os.path.join(CONFIG_DIR, "session.json")
@@ -1282,6 +1282,13 @@ class TunnelCard(ctk.CTkFrame):
                           text_color=C_ACCENT, cursor="hand2").pack(side="left")
         ctk.CTkLabel(row2, text=f"→ {target_ip}:{port}", font=("Consolas", 10),
                       text_color=C_TEXT_DIM).pack(side="left", padx=(12, 0))
+
+        # Show remote connection info for TCP/UDP tunnels
+        proxy_port = data.get("proxy_port")
+        if proxy_port and protocol in ("tcp", "udp"):
+            ctk.CTkLabel(row2, text=f"  🔗 Connect to 50.21.191.173:{proxy_port}",
+                          font=("Consolas", 10, "bold"),
+                          text_color="#00e5ff").pack(side="left", padx=(8, 0))
 
         # ── Right buttons ──
         right = ctk.CTkFrame(self, fg_color="transparent", width=300)

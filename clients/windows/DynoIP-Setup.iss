@@ -4,7 +4,7 @@
 ; =============================================================================
 
 #define MyAppName "DynoIP"
-#define MyAppVersion "2.5.0"
+#define MyAppVersion "2.6.0"
 #define MyAppPublisher "DynoIP"
 #define MyAppURL "https://dyno-ip.com"
 #define MyAppExeName "DynoIP.exe"

@@ -136,22 +136,7 @@ Start free. Upgrade when you need more.
 - **Desktop Client**: Python + CustomTkinter, packaged with PyInstaller
 - **Analytics**: Cloudflare Analytics API (GraphQL + REST) polled server-side
 
----
-
-## Self-Hosting
-
-Dyno-IP is open source. To self-host:
-
-1. Clone this repo
-2. Copy `backend/.env.example` to `backend/.env` and fill in your secrets
-3. Set up MariaDB/MySQL and run the migrations in `backend/migrations/`
-4. Deploy the backend: `cd backend && pip install -r requirements.txt && uvicorn app.main:app`
-5. Build the frontend: `cd frontend && npm install && npm run build`
-6. Set up Pangolin for tunnel support (see `pangolin/` directory)
-
-See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for full details.
-
----
+--- 
 
 ## Tech Stack
 
@@ -166,6 +151,18 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for full details.
 | Analytics | Cloudflare GraphQL + REST APIs |
 
 ---
+
+## Coming Soon
+Much more control is coming to your tunnels and subdomain
+1. Link Sharing, single links that can re-direct users to your service.
+2. QRcode service linking.
+3. Service permissions, allow only certain email address, user agent, IP, geographical location and many more!
+4. Approval requests, allow someone to send notification in real-time for approval to your service.
+5. Setup identity providers: OAuth2/OIDC, Google, Github etc.
+6. Send invitations for someone to access your service.
+7. Setup multiple services to one location.
+8. Setup ZeroTrust private access.
+9. SMS and call validation services.
 
 ## License
 
